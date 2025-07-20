@@ -3,6 +3,6 @@ export interface Task {
     id: string;
     name: string;
     description: string;
-    taskStatus: null | 'pending' | 'in-progress' | 'completed';
+    taskStatus: null | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
     dueDate: Date | null;
 }

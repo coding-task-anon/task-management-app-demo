@@ -1,1 +1,42 @@
-<p>edit works!</p>
+<div class="card mt-5">
+    <h3 class="card-header">Create Task</h3>
+    <div class="card-body">
+        <div class="m-1">
+            <a
+            [routerLink]="['/tasks']"
+            class="btn btn-primary btn-sm">Task List</a>
+        </div>
+        <form (ngSubmit)="submit()">
+            <div class="mt-2">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-control" [(ngModel)]="name" name="name" value="{{name}}" required>
+            </div>  
+            <div class="mt-2">
+                <label for="name">Description</label>
+                <input type="text" id="description" class="form-control" [(ngModel)]="description" name="description" required>
+            </div>  
+            <div class="mt-2">
+                <label for="name">Due</label>
+                <input type="date" id="dueDate" class="form-control" [(ngModel)]="dueDate" name="dueDate" required>
+            </div> 
+            <div class="mt-2">
+                <label for="name">Due</label>
+                <select id="taskStatus" class="form-control" [(ngModel)]="taskStatus" name="taskStatus" required>
+                    <option value="PENDING">Pending</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                </select>
+            </div>
+            @if(error) {
+                <div class="alert alert-danger mt-2">
+                    {{ error }}
+                </div>
+            }
+
+            <div class="mt-2">
+                <button class="btn btn-success">Submit</button>
+            </div>
+        </form>
+
+
+</div>    

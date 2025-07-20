@@ -21,7 +21,7 @@ export class Create {
 
     submit(){
       
-      if (!this.name === null || !this.description === null || !this.dueDate === null) {
+      if (this.name.trim().length < 0 || this.description.trim().length < 0 || this.dueDate === null) {
           this.error = "Title and Body fields are required.";
       return;
       }
@@ -35,9 +35,17 @@ export class Create {
         }
 
         
-        this.taskService.createTask(task).subscribe();
-      
-        alert('Task created successfully!');
+        let createdTask = this.taskService.createTask(task).subscribe(
+          (response: Task) => {
+            console.log('Task created successfully:', response);
+            alert('Task created successfully with ID: ' + response.id);
+          },
+          (error) => {
+            console.error('Error creating task:', error);
+            this.error = 'Failed to create task. Please try again.';
+          }
+        );
+        console.log('New Task ID:', createdTask);
         this.router.navigate(['/tasks']);
     }
   }

@@ -39,9 +39,11 @@ export class TaskService {
    * @returns Observable<Task>
    */
   getTaskById(taskId: string): Observable<Task> {
+    ;
     this.log(`Fetching task with ID: ${taskId}`);
+  
     
-    return this.http.get<Task>(`${this.apiUrl}tasks/${taskId}`, this.httpOptions)
+    return this.http.get<Task>(`${this.apiUrl}tasks/${parseInt(taskId)}`, this.httpOptions)
       .pipe(
         tap(task => this.log(`Retrieved task: ${task.id}`)),
         catchError(this.handleError<Task>(`getTaskById id=${taskId}`))
@@ -55,13 +57,7 @@ export class TaskService {
    */
   createTask(task: Task): Observable<Task> {
     this.log('Creating new task');
-    console.log('Task details:', task);
-    console.log('API URL:', `${this.apiUrl}tasks/`);
-    console.log('HTTP Options:', this.httpOptions);
-    console.log('Task JSON:', JSON.stringify(task));
-    let taskPayload = JSON.stringify(task);
-
-    return this.http.post<Task>(`${this.apiUrl}tasks/`, taskPayload, this.httpOptions)
+    return this.http.post<Task>(`${this.apiUrl}tasks/`, task, this.httpOptions)
       .pipe(
         tap(newTask => this.log(`Created task with ID: ${newTask.id}`)),
         catchError(this.handleError<Task>('createTask'))
@@ -98,6 +94,8 @@ export class TaskService {
         catchError(this.handleError<void>(`deleteTask id=${taskId}`))
       );
   }
+
+
 
   /**
    * Handle Http operation that failed.
