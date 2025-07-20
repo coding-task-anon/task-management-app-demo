@@ -55,8 +55,13 @@ export class TaskService {
    */
   createTask(task: Task): Observable<Task> {
     this.log('Creating new task');
-    
-    return this.http.post<Task>(`${this.apiUrl}tasks`, task, this.httpOptions)
+    console.log('Task details:', task);
+    console.log('API URL:', `${this.apiUrl}tasks/`);
+    console.log('HTTP Options:', this.httpOptions);
+    console.log('Task JSON:', JSON.stringify(task));
+    let taskPayload = JSON.stringify(task);
+
+    return this.http.post<Task>(`${this.apiUrl}tasks/`, taskPayload, this.httpOptions)
       .pipe(
         tap(newTask => this.log(`Created task with ID: ${newTask.id}`)),
         catchError(this.handleError<Task>('createTask'))

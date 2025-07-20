@@ -22,6 +22,7 @@ export class Index {
     this.taskService.getTasks().subscribe(
       (data: Task[]) => {
         this.tasks = data;
+        console.log('Tasks loaded successfully', this.tasks);
       },
       error => {
         console.error('Error fetching tasks', error);
