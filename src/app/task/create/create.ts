@@ -16,18 +16,11 @@ export class Create {
   dueDate: Date | null = null;
   error: string | null = null;
 
-  constructor(
-    private taskService: TaskService,
-    private router: Router,
-  ) {}
+  constructor(private taskService: TaskService, private router: Router) {}
 
   submit() {
-    if (
-      this.name.trim().length < 0 ||
-      this.description.trim().length < 0 ||
-      this.dueDate === null
-    ) {
-      this.error = 'Title and Body fields are required.';
+    if (this.name.trim().length < 0 || this.dueDate === null) {
+      this.error = 'Title and Date fields are required.';
       return;
     }
 
@@ -47,7 +40,7 @@ export class Create {
       (error) => {
         console.error('Error creating task:', error);
         this.error = 'Failed to create task. Please try again.';
-      },
+      }
     );
     console.log('New Task ID:', createdTask);
     this.router.navigate(['/tasks']);

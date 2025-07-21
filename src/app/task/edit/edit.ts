@@ -18,10 +18,7 @@ export class Edit {
   dueDate: Date | null = null;
   error: string | null = null;
 
-  constructor(
-    private taskService: TaskService,
-    private router: Router,
-  ) {}
+  constructor(private taskService: TaskService, private router: Router) {}
 
   ngOnInit(): void {
     const taskId = this.router.url.split('/')[2];
@@ -38,23 +35,23 @@ export class Edit {
         (error) => {
           console.error('Error fetching task', error);
           this.error = 'Failed to load task details.';
-        },
+        }
       );
     }
   }
 
   submit() {
-    if (
-      this.name.trim().length < 0 ||
-      this.description.trim().length < 0 ||
-      this.dueDate === null
-    ) {
-      this.error = 'Title and Body fields are required.';
+    if (this.id === '' || this.id === null) {
+      this.error = 'Missing item id.';
+      return;
+    }
+    if (this.name.trim().length < 0 || this.dueDate === null) {
+      this.error = 'Title and Due Date fields are required.';
       return;
     }
 
     const task: Task = {
-      id: '', // This will be set by the backend or service
+      id: this.id, // This will be set by the backend or service
       name: this.name,
       description: this.description,
       taskStatus: this.taskStatus, // Default status
@@ -69,7 +66,7 @@ export class Edit {
       (error) => {
         console.error('Error creating task:', error);
         this.error = 'Failed to create task. Please try again.';
-      },
+      }
     );
     this.router.navigate(['/tasks/' + this.id]);
   }
