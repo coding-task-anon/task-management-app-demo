@@ -3,6 +3,7 @@ import { RouterModule, Router } from '@angular/router';
 import { TaskService } from '../task-service';
 import { Task } from '../task';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit',
@@ -40,7 +41,7 @@ export class Edit {
     }
   }
 
-  submit() {
+  async submit() {
     if (this.id === '' || this.id === null) {
       this.error = 'Missing item id.';
       return;
@@ -49,25 +50,36 @@ export class Edit {
       this.error = 'Title and Due Date fields are required.';
       return;
     }
+    const dueDateObj = new Date(this.dueDate);
+    if (isNaN(dueDateObj.getTime())) {
+      this.error = 'Invalid date format.';
+      return;
+    }
+    if (dueDateObj < new Date()) {
+      this.error = 'Due Date cannot be in the past.';
+      return;
+    }
 
     const task: Task = {
-      id: this.id, // This will be set by the backend or service
+      id: this.id,
       name: this.name,
       description: this.description,
-      taskStatus: this.taskStatus, // Default status
+      taskStatus: this.taskStatus,
       dueDate: this.dueDate,
     };
 
-    let createdTask = this.taskService.updateTask(this.id, task).subscribe(
-      (response: Task) => {
-        console.log('Task updated successfully:', response);
-        alert('Task updated successfully with ID: ' + response.id);
-      },
-      (error) => {
-        console.error('Error creating task:', error);
-        this.error = 'Failed to create task. Please try again.';
-      }
-    );
-    this.router.navigate(['/tasks/' + this.id]);
+    try {
+      const response = await firstValueFrom(
+        this.taskService.updateTask(this.id, task)
+      );
+      console.log('Task updated successfully:', response);
+      alert('Task updated successfully with ID: ' + response.id);
+
+      // Navigate after successful update
+      this.router.navigate(['/tasks']);
+    } catch (error) {
+      console.error('Error updating task:', error);
+      this.error = 'Failed to update task. Please try again.';
+    }
   }
 }
