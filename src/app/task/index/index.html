@@ -1,14 +1,11 @@
 <div class="card mt-5">
   <h3 class="card-header p-3">Task Management App</h3>
   <div class="card-body">
-   
-
     <div class="card mb-4">
-        <div class="card-header">
-          <h5 class="card-title">Filters</h5>
-    </div>
-    <div class="card-body">
-      <form>
+      <div class="card-header">
+        <h5 class="card-title">Filters</h5>
+      </div>
+      <div class="card-body">
         <div class="mb-3">
           <label for="taskStatus" class="form-label">Select Task Status</label>
           <select
@@ -26,63 +23,77 @@
             <option value="">All</option>
           </select>
         </div>
-      </form>
-    </div>
-    </div>
+        <div class="mb-3">
+          <label for="searchTerm" class="form-label">Search Tasks</label>
+          <input
+            type="text"
+            id="searchTerm"
+            class="form-control"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="searchTasks()"
+            name="searchTerm"
+            placeholder="Search by name or description"
+          />
+        </div>
+      </div>
 
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Due Date</th>
-          <th>Status</th>
-          <th width="250px">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(task of tasks; track task.id){
-        <tr>
-          <td>{{ task.id }}</td>
-          <td>{{ task.name }}</td>
-          <td>{{ task.description }}</td>
-          <td>{{ task.dueDate }}</td>
-          <td>
-            @if(task.taskStatus === 'PENDING') {
-            <span class="badge bg-secondary">Pending</span>
-            } @else if(task.taskStatus === 'IN_PROGRESS') {
-            <span class="badge bg-primary">In Progress</span>
-            } @else if(task.taskStatus === 'COMPLETED') {
-            <span class="badge bg-success">Completed</span>
-            } @else {
-            <span class="badge bg-warning">Unknown</span>
-            }
-          </td>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th width="250px">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (task of tasks; track task.id) {
+            <tr>
+              <td>{{ task.id }}</td>
+              <td>{{ task.name }}</td>
+              <td>{{ task.description }}</td>
+              <td>{{ task.dueDate }}</td>
+              <td>
+                @if (task.taskStatus === "PENDING") {
+                  <span class="badge bg-secondary">Pending</span>
+                } @else if (task.taskStatus === "IN_PROGRESS") {
+                  <span class="badge bg-primary">In Progress</span>
+                } @else if (task.taskStatus === "COMPLETED") {
+                  <span class="badge bg-success">Completed</span>
+                } @else {
+                  <span class="badge bg-warning">Unknown</span>
+                }
+              </td>
 
-          <td>
-            <a
-              [routerLink]="['/tasks', task.id]"
-              class="btn btn-info btn-sm m-1"
-              >Show</a
-            >
-            <a
-              [routerLink]="['/tasks', task.id, 'edit']"
-              class="btn btn-primary m-1 btn-sm"
-              >Edit</a
-            >
-            <button (click)="deleteTask(task.id)" class="btn btn-danger btn-sm">
-              Delete
-            </button>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
-     <div class="m-1">
-      <a [routerLink]="['/tasks/create']" class="btn btn-success btn-sm"
-        >Create task</a
-      >
+              <td>
+                <a
+                  [routerLink]="['/tasks', task.id]"
+                  class="btn btn-info btn-sm m-1"
+                  >Show</a
+                >
+                <a
+                  [routerLink]="['/tasks', task.id, 'edit']"
+                  class="btn btn-primary m-1 btn-sm"
+                  >Edit</a
+                >
+                <button
+                  (click)="deleteTask(task.id)"
+                  class="btn btn-danger btn-sm"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <div class="m-1">
+        <a [routerLink]="['/tasks/create']" class="btn btn-success btn-sm"
+          >Create task</a
+        >
+      </div>
     </div>
   </div>
 </div>

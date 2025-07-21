@@ -1,23 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Task } from './task';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskService {
-  
   private apiUrl = 'http://localhost:8080/';
-  
+
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
+      'Content-Type': 'application/json',
+    }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Retrieves all tasks from the API
@@ -25,12 +28,11 @@ export class TaskService {
    */
   getTasks(): Observable<Task[]> {
     this.log('Fetching tasks from API');
-    
-    return this.http.get<Task[]>(`${this.apiUrl}tasks/`, this.httpOptions)
-      .pipe(
-        tap(tasks => this.log(`Retrieved ${tasks.length} tasks`)),
-        catchError(this.handleError<Task[]>('getTasks', []))
-      );
+
+    return this.http.get<Task[]>(`${this.apiUrl}tasks/`, this.httpOptions).pipe(
+      tap((tasks) => this.log(`Retrieved ${tasks.length} tasks`)),
+      catchError(this.handleError<Task[]>('getTasks', [])),
+    );
   }
 
   /**
@@ -39,14 +41,13 @@ export class TaskService {
    * @returns Observable<Task>
    */
   getTaskById(taskId: string): Observable<Task> {
-    ;
     this.log(`Fetching task with ID: ${taskId}`);
-  
-    
-    return this.http.get<Task>(`${this.apiUrl}tasks/${parseInt(taskId)}`, this.httpOptions)
+
+    return this.http
+      .get<Task>(`${this.apiUrl}tasks/${parseInt(taskId)}`, this.httpOptions)
       .pipe(
-        tap(task => this.log(`Retrieved task: ${task.id}`)),
-        catchError(this.handleError<Task>(`getTaskById id=${taskId}`))
+        tap((task) => this.log(`Retrieved task: ${task.id}`)),
+        catchError(this.handleError<Task>(`getTaskById id=${taskId}`)),
       );
   }
 
@@ -57,10 +58,11 @@ export class TaskService {
    */
   createTask(task: Task): Observable<Task> {
     this.log('Creating new task');
-    return this.http.post<Task>(`${this.apiUrl}tasks/`, task, this.httpOptions)
+    return this.http
+      .post<Task>(`${this.apiUrl}tasks/`, task, this.httpOptions)
       .pipe(
-        tap(newTask => this.log(`Created task with ID: ${newTask.id}`)),
-        catchError(this.handleError<Task>('createTask'))
+        tap((newTask) => this.log(`Created task with ID: ${newTask.id}`)),
+        catchError(this.handleError<Task>('createTask')),
       );
   }
 
@@ -72,11 +74,12 @@ export class TaskService {
    */
   updateTask(taskId: string, task: Task): Observable<Task> {
     this.log(`Updating task with ID: ${taskId}`);
-    
-    return this.http.put<Task>(`${this.apiUrl}tasks/${taskId}`, task, this.httpOptions)
+
+    return this.http
+      .put<Task>(`${this.apiUrl}tasks/${taskId}`, task, this.httpOptions)
       .pipe(
-        tap(updatedTask => this.log(`Updated task: ${updatedTask.id}`)),
-        catchError(this.handleError<Task>(`updateTask id=${taskId}`))
+        tap((updatedTask) => this.log(`Updated task: ${updatedTask.id}`)),
+        catchError(this.handleError<Task>(`updateTask id=${taskId}`)),
       );
   }
 
@@ -87,15 +90,14 @@ export class TaskService {
    */
   deleteTask(taskId: string): Observable<void> {
     this.log(`Deleting task with ID: ${taskId}`);
-    
-    return this.http.delete<void>(`${this.apiUrl}tasks/${taskId}`, this.httpOptions)
+
+    return this.http
+      .delete<void>(`${this.apiUrl}tasks/${taskId}`, this.httpOptions)
       .pipe(
         tap(() => this.log(`Deleted task with ID: ${taskId}`)),
-        catchError(this.handleError<void>(`deleteTask id=${taskId}`))
+        catchError(this.handleError<void>(`deleteTask id=${taskId}`)),
       );
   }
-
-
 
   /**
    * Handle Http operation that failed.
@@ -105,16 +107,15 @@ export class TaskService {
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: HttpErrorResponse): Observable<T> => {
-      
       // Log error to console (in production, you might want to send to logging service)
       console.error(`${operation} failed:`, error);
-      
+
       // Log user-friendly message
       this.log(`${operation} failed: ${this.getErrorMessage(error)}`);
-      
+
       // Let the app keep running by returning an empty result or throwing error
       if (result !== undefined) {
-        return new Observable(observer => {
+        return new Observable((observer) => {
           observer.next(result as T);
           observer.complete();
         });

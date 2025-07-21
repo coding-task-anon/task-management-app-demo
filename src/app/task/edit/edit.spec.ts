@@ -1,16 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClient } from '@angular/common/http';
 import { Edit } from './edit';
+import { RouterModule } from '@angular/router';
 
 describe('Edit', () => {
   let component: Edit;
   let fixture: ComponentFixture<Edit>;
 
   beforeEach(async () => {
+    // const mockRouter = {
+    //   url: '/edit/123',
+    //   navigate: jasmine.createSpy('navigate')
+    // };
+
     await TestBed.configureTestingModule({
-      imports: [Edit]
-    })
-    .compileComponents();
+      imports: [Edit, RouterModule.forRoot([])],
+      providers: [{ provide: HttpClient, useValue: {} }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Edit);
     component = fixture.componentInstance;
