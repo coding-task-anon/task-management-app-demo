@@ -1,60 +1,71 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { TaskService } from '../task-service';
 import { Task } from '../task';
-import { FormsModule } from '@angular/forms';
+import { CustomValidators } from '../../shared/validators/custom-validators';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-create',
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, ReactiveFormsModule], // Added ReactiveFormsModule
   templateUrl: './create.html',
   styleUrl: './create.css',
 })
 export class Create {
-  name: string = '';
-  description: string = '';
-  dueDate: Date | null = null;
+  form: FormGroup;
   error: string | null = null;
 
-  constructor(private taskService: TaskService, private router: Router) {}
+  constructor(
+    private taskService: TaskService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    // Fixed: Added 'this.' before form
+    this.form = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(1)]],
+      description: [''],
+      dueDate: [null, [Validators.required, CustomValidators.futureDateOnly()]],
+    });
+  }
 
   async submit() {
-    if (this.name.trim().length === 0 || this.dueDate === null) {
-      this.error = 'Title and Due Date fields are required.';
+    // Reset error
+    this.error = null;
+
+    // Check if form is valid
+    if (this.form.invalid) {
+      this.form.markAllAsTouched(); // Show validation errors
+      this.error = 'Please fix the form errors before submitting.';
       return;
     }
-    console.log(
-      'Submitting task with name:',
-      this.name,
-      'and due date:',
-      this.dueDate
-    );
-    const dueDateObj = new Date(this.dueDate);
-    if (isNaN(dueDateObj.getTime())) {
-      this.error = 'Invalid date format.';
-      return;
-    }
-    if (dueDateObj < new Date()) {
-      this.error = 'Due Date cannot be in the past.';
-      return;
-    }
+
+    // Get form values
+    const formValues = this.form.value;
+
+    console.log('Submitting task:', formValues);
 
     const task: Task = {
       id: '', // This will be set by the backend or service
-      name: this.name.trim(),
-      description: this.description.trim(),
+      name: formValues.name.trim(),
+      description: formValues.description?.trim() || '',
       taskStatus: null,
-      dueDate: this.dueDate,
+      dueDate: formValues.dueDate,
     };
 
     try {
       const response = await firstValueFrom(this.taskService.createTask(task));
       console.log('Task created successfully:', response);
-      console.log('New Task ID:', response.id); // Now this will show the actual ID
+      console.log('New Task ID:', response.id);
 
-      // Clear form
-      this.resetForm();
+      // Reset form
+      this.form.reset();
+      this.error = null;
 
       alert('Task created successfully with ID: ' + response.id);
 
@@ -63,14 +74,19 @@ export class Create {
     } catch (error) {
       console.error('Error creating task:', error);
       this.error = 'Failed to create task. Please try again.';
-      // Don't navigate on error
     }
   }
 
-  private resetForm() {
-    this.name = '';
-    this.description = '';
-    this.dueDate = null;
-    this.error = '';
+  // Helper methods for template
+  get nameControl() {
+    return this.form.get('name');
+  }
+
+  get dueDateControl() {
+    return this.form.get('dueDate');
+  }
+
+  get descriptionControl() {
+    return this.form.get('description');
   }
 }
