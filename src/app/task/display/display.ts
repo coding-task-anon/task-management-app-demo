@@ -3,10 +3,11 @@ import { RouterModule, Router } from '@angular/router';
 import { TaskService } from '../task-service';
 import { Task } from '../task';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-display',
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, DatePipe],
   templateUrl: './display.html',
   styleUrl: './display.css',
 })

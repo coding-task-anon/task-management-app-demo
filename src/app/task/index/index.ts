@@ -3,10 +3,11 @@ import { TaskService } from '../task-service';
 import { Task } from '../task';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-index',
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, DatePipe],
   templateUrl: './index.html',
   styleUrl: './index.css',
 })

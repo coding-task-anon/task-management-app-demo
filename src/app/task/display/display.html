@@ -1,28 +1,46 @@
 <div class="card mt-5">
-  <h3 class="card-header p-3">Show Post</h3>
+  <h3 class="card-header">Show Task</h3>
   <div class="card-body">
     <div class="m-1">
-      <a [routerLink]="['/tasks']" class="btn btn-primary btn-sm">Back</a>
+      <a [routerLink]="['/tasks']" class="btn btn-primary btn-sm">Task List</a>
     </div>
 
-    <div>
-      <p><strong>Title:</strong> {{ title }}</p>
-      <p><strong>Description:</strong> {{ description }}</p>
-      <p><strong>Task Status:</strong> {{ taskStatus }}</p>
-      <p>
-        <strong>Due Date:</strong>
-        @if (taskStatus === "PENDING") {
-        <span class="badge bg-secondary">Pending</span>
-        } @else if (taskStatus === "IN_PROGRESS") {
-        <span class="badge bg-primary">In Progress</span>
-        } @else if (taskStatus === "COMPLETED") {
-        <span class="badge bg-success">Completed</span>
-        } @else {
-        <span class="badge bg-warning">Unknown</span>
-        }
-      </p>
-    </div>
-    <div class="m-1">
+    <table class="table table-bordered table-striped mt-2">
+      <tbody>
+        <tr>
+          <td [width]="25"><strong>ID:</strong></td>
+          <td>{{ id }}</td>
+        </tr>
+        <tr>
+          <td><strong>Title:</strong></td>
+          <td>{{ title }}</td>
+        </tr>
+        <tr>
+          <td><strong>Description:</strong></td>
+          <td>{{ description }}</td>
+        </tr>
+        <tr>
+          <td><strong>Task Status:</strong></td>
+          <td>
+            @if (taskStatus === "PENDING") {
+            <span class="badge bg-secondary">Pending</span>
+            } @else if (taskStatus === "IN_PROGRESS") {
+            <span class="badge bg-primary">In Progress</span>
+            } @else if (taskStatus === "COMPLETED") {
+            <span class="badge bg-success">Completed</span>
+            } @else {
+            <span class="badge bg-warning">Unknown</span>
+            }
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Due Date:</strong></td>
+          <td>{{ dueDate | date : "shortDate" }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="mt-2">
       <a [routerLink]="['/tasks', id, 'edit']" class="btn btn-primary btn-sm"
         >Edit</a
       >

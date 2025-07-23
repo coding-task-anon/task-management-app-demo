@@ -32,6 +32,7 @@
             [(ngModel)]="searchTerm"
             (ngModelChange)="searchTasks()"
             name="searchTerm"
+            aria0-label="Search tasks by title or description"
             placeholder="Search by title or description"
           />
         </div>
@@ -54,7 +55,7 @@
             <td>{{ task.id }}</td>
             <td>{{ task.title }}</td>
             <td>{{ task.description }}</td>
-            <td>{{ task.dueDate }}</td>
+            <td>{{ task.dueDate | date : "shortDate" }}</td>
             <td>
               @if (task.taskStatus === "PENDING") {
               <span class="badge bg-secondary">Pending</span>
