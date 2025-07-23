@@ -12,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './create.css',
 })
 export class Create {
-  name: string = '';
+  title: string = '';
   description: string = '';
   dueDate: Date | null = null;
   error: string | null = null;
@@ -20,13 +20,13 @@ export class Create {
   constructor(private taskService: TaskService, private router: Router) {}
 
   async submit() {
-    if (this.name.trim().length === 0 || this.dueDate === null) {
+    if (this.title.trim().length === 0 || this.dueDate === null) {
       this.error = 'Title and Due Date fields are required.';
       return;
     }
     console.log(
-      'Submitting task with name:',
-      this.name,
+      'Submitting task with title:',
+      this.title,
       'and due date:',
       this.dueDate
     );
@@ -42,7 +42,7 @@ export class Create {
 
     const task: Task = {
       id: '', // This will be set by the backend or service
-      name: this.name.trim(),
+      title: this.title.trim(),
       description: this.description.trim(),
       taskStatus: null,
       dueDate: this.dueDate,
@@ -68,7 +68,7 @@ export class Create {
   }
 
   private resetForm() {
-    this.name = '';
+    this.title = '';
     this.description = '';
     this.dueDate = null;
     this.error = '';

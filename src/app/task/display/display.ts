@@ -11,17 +11,14 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './display.css',
 })
 export class Display {
-  name: string = '';
+  title: string = '';
   description: string = '';
   taskStatus: null | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' = null;
   id: string = '';
   dueDate: Date | null = null;
   error: string | null = null;
 
-  constructor(
-    private taskService: TaskService,
-    private router: Router,
-  ) {}
+  constructor(private taskService: TaskService, private router: Router) {}
 
   ngOnInit(): void {
     const taskId = this.router.url.split('/')[2];
@@ -30,7 +27,7 @@ export class Display {
       this.id = taskId;
       this.taskService.getTaskById(this.id).subscribe(
         (task: Task) => {
-          this.name = task.name;
+          this.title = task.title;
           this.description = task.description;
           this.taskStatus = task.taskStatus;
           this.dueDate = task.dueDate;
@@ -38,7 +35,7 @@ export class Display {
         (error) => {
           console.error('Error fetching task', error);
           this.error = 'Failed to load task details.';
-        },
+        }
       );
     }
   }

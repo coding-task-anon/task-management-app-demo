@@ -6,19 +6,19 @@
     </div>
 
     <div>
-      <p><strong>Title:</strong> {{ name }}</p>
+      <p><strong>Title:</strong> {{ title }}</p>
       <p><strong>Description:</strong> {{ description }}</p>
       <p><strong>Task Status:</strong> {{ taskStatus }}</p>
       <p>
         <strong>Due Date:</strong>
         @if (taskStatus === "PENDING") {
-          <span class="badge bg-secondary">Pending</span>
+        <span class="badge bg-secondary">Pending</span>
         } @else if (taskStatus === "IN_PROGRESS") {
-          <span class="badge bg-primary">In Progress</span>
+        <span class="badge bg-primary">In Progress</span>
         } @else if (taskStatus === "COMPLETED") {
-          <span class="badge bg-success">Completed</span>
+        <span class="badge bg-success">Completed</span>
         } @else {
-          <span class="badge bg-warning">Unknown</span>
+        <span class="badge bg-warning">Unknown</span>
         }
       </p>
     </div>

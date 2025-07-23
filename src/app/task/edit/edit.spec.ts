@@ -8,11 +8,6 @@ describe('Edit', () => {
   let fixture: ComponentFixture<Edit>;
 
   beforeEach(async () => {
-    // const mockRouter = {
-    //   url: '/edit/123',
-    //   navigate: jasmine.createSpy('navigate')
-    // };
-
     await TestBed.configureTestingModule({
       imports: [Edit, RouterModule.forRoot([])],
       providers: [{ provide: HttpClient, useValue: {} }],

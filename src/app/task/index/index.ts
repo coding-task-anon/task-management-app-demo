@@ -29,7 +29,7 @@ export class Index {
     } else {
       console.log('Filtering by status:', this.taskStatus);
       this.tasks = this.allTasks.filter(
-        (task) => task.taskStatus === this.taskStatus,
+        (task) => task.taskStatus === this.taskStatus
       );
     }
 
@@ -47,7 +47,7 @@ export class Index {
 
   private hasSearchTerm(task: Task): boolean {
     return (
-      task.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      task.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       task.description.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
@@ -72,7 +72,7 @@ export class Index {
       },
       (error) => {
         console.error('Error deleting task', error);
-      },
+      }
     );
   }
 }

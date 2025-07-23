@@ -12,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './edit.css',
 })
 export class Edit {
-  name: string = '';
+  title: string = '';
   description: string = '';
   taskStatus: null | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' = null;
   id: string = '';
@@ -28,7 +28,7 @@ export class Edit {
       this.id = taskId;
       this.taskService.getTaskById(this.id).subscribe(
         (task: Task) => {
-          this.name = task.name;
+          this.title = task.title;
           this.description = task.description;
           this.taskStatus = task.taskStatus;
           this.dueDate = task.dueDate;
@@ -46,7 +46,7 @@ export class Edit {
       this.error = 'Missing item id.';
       return;
     }
-    if (this.name.trim().length < 0 || this.dueDate === null) {
+    if (this.title.trim().length < 0 || this.dueDate === null) {
       this.error = 'Title and Due Date fields are required.';
       return;
     }
@@ -62,7 +62,7 @@ export class Edit {
 
     const task: Task = {
       id: this.id,
-      name: this.name,
+      title: this.title,
       description: this.description,
       taskStatus: this.taskStatus,
       dueDate: this.dueDate,

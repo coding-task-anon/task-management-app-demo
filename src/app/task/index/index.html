@@ -32,7 +32,7 @@
             [(ngModel)]="searchTerm"
             (ngModelChange)="searchTasks()"
             name="searchTerm"
-            placeholder="Search by name or description"
+            placeholder="Search by title or description"
           />
         </div>
       </div>
@@ -41,7 +41,7 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Title</th>
             <th>Description</th>
             <th>Due Date</th>
             <th>Status</th>
@@ -50,42 +50,42 @@
         </thead>
         <tbody>
           @for (task of tasks; track task.id) {
-            <tr>
-              <td>{{ task.id }}</td>
-              <td>{{ task.name }}</td>
-              <td>{{ task.description }}</td>
-              <td>{{ task.dueDate }}</td>
-              <td>
-                @if (task.taskStatus === "PENDING") {
-                  <span class="badge bg-secondary">Pending</span>
-                } @else if (task.taskStatus === "IN_PROGRESS") {
-                  <span class="badge bg-primary">In Progress</span>
-                } @else if (task.taskStatus === "COMPLETED") {
-                  <span class="badge bg-success">Completed</span>
-                } @else {
-                  <span class="badge bg-warning">Unknown</span>
-                }
-              </td>
+          <tr>
+            <td>{{ task.id }}</td>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.dueDate }}</td>
+            <td>
+              @if (task.taskStatus === "PENDING") {
+              <span class="badge bg-secondary">Pending</span>
+              } @else if (task.taskStatus === "IN_PROGRESS") {
+              <span class="badge bg-primary">In Progress</span>
+              } @else if (task.taskStatus === "COMPLETED") {
+              <span class="badge bg-success">Completed</span>
+              } @else {
+              <span class="badge bg-warning">Unknown</span>
+              }
+            </td>
 
-              <td>
-                <a
-                  [routerLink]="['/tasks', task.id]"
-                  class="btn btn-info btn-sm m-1"
-                  >Show</a
-                >
-                <a
-                  [routerLink]="['/tasks', task.id, 'edit']"
-                  class="btn btn-primary m-1 btn-sm"
-                  >Edit</a
-                >
-                <button
-                  (click)="deleteTask(task.id)"
-                  class="btn btn-danger btn-sm"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
+            <td>
+              <a
+                [routerLink]="['/tasks', task.id]"
+                class="btn btn-info btn-sm m-1"
+                >Show</a
+              >
+              <a
+                [routerLink]="['/tasks', task.id, 'edit']"
+                class="btn btn-primary m-1 btn-sm"
+                >Edit</a
+              >
+              <button
+                (click)="deleteTask(task.id)"
+                class="btn btn-danger btn-sm"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
           }
         </tbody>
       </table>
