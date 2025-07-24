@@ -24,6 +24,14 @@ export class Create {
       this.error = 'Title and Due Date fields are required.';
       return;
     }
+    if (this.title.trim().length > 255) {
+      this.error = 'Title cannot exceed 255 characters.';
+      return;
+    }
+    if (this.description.trim().length > 2000) {
+      this.error = 'Description cannot exceed 2000 characters.';
+      return;
+    }
     console.log(
       'Submitting task with title:',
       this.title,
@@ -51,7 +59,7 @@ export class Create {
     try {
       const response = await firstValueFrom(this.taskService.createTask(task));
       console.log('Task created successfully:', response);
-      console.log('New Task ID:', response.id); // Now this will show the actual ID
+      console.log('New Task ID:', response.id);
 
       // Clear form
       this.resetForm();

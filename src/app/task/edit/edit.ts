@@ -50,6 +50,14 @@ export class Edit {
       this.error = 'Title and Due Date fields are required.';
       return;
     }
+    if (this.title.trim().length > 255) {
+      this.error = 'Title cannot exceed 255 characters.';
+      return;
+    }
+    if (this.description.trim().length > 2000) {
+      this.error = 'Description cannot exceed 2000 characters.';
+      return;
+    }
     const dueDateObj = new Date(this.dueDate);
     if (isNaN(dueDateObj.getTime())) {
       this.error = 'Invalid date format.';

@@ -1,1 +1,40 @@
-<router-outlet />
+<header class="app-header">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Task Management App</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/tasks"
+              >Tasks</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/tasks/create">Create Task</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<body
+  class="app-body"
+  style="background-color: #6ba5e0; padding: 20px; text-align: left"
+>
+  <router-outlet />
+</body>
+
+<footer class="app-footer">
+  <div class="text-center py-3">MoJ Coding Challenge 2025</div>
+</footer>
