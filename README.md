@@ -77,3 +77,8 @@ src/
   main.ts               # App bootstrap
   index.html            # App entry point
 ```
+
+## Areas for Improvement
+
+- Pull out validation into common methods used across components
+- More extensive tests
