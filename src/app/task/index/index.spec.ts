@@ -35,9 +35,7 @@ describe('Index', () => {
     const fixture = TestBed.createComponent(Index);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h3')?.textContent).toContain(
-      'Task Management App',
-    );
+    expect(compiled.querySelector('h4')?.textContent).toContain('Tasks');
   });
 
   it('should create', () => {

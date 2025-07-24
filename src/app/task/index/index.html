@@ -1,5 +1,5 @@
-<div class="card mt-5">
-  <h3 class="card-header p-3">Task Management App</h3>
+<div class="card">
+  <h4 class="card-header p-3">Tasks</h4>
   <div class="card-body">
     <div class="card mb-4">
       <div class="card-header">
@@ -54,7 +54,12 @@
           <tr>
             <td>{{ task.id }}</td>
             <td>{{ task.title }}</td>
-            <td>{{ task.description }}</td>
+            <td>
+              @if (task.description.length > 150) {
+              {{ task.description.substring(0, 150) }}... } @else {
+              {{ task.description }}
+              }
+            </td>
             <td>{{ task.dueDate | date : "shortDate" }}</td>
             <td>
               @if (task.taskStatus === "PENDING") {

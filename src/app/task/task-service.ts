@@ -31,7 +31,7 @@ export class TaskService {
 
     return this.http.get<Task[]>(`${this.apiUrl}tasks/`, this.httpOptions).pipe(
       tap((tasks) => this.log(`Retrieved ${tasks.length} tasks`)),
-      catchError(this.handleError<Task[]>('getTasks', [])),
+      catchError(this.handleError<Task[]>('getTasks', []))
     );
   }
 
@@ -47,7 +47,7 @@ export class TaskService {
       .get<Task>(`${this.apiUrl}tasks/${parseInt(taskId)}`, this.httpOptions)
       .pipe(
         tap((task) => this.log(`Retrieved task: ${task.id}`)),
-        catchError(this.handleError<Task>(`getTaskById id=${taskId}`)),
+        catchError(this.handleError<Task>(`getTaskById id=${taskId}`))
       );
   }
 
@@ -62,7 +62,7 @@ export class TaskService {
       .post<Task>(`${this.apiUrl}tasks/`, task, this.httpOptions)
       .pipe(
         tap((newTask) => this.log(`Created task with ID: ${newTask.id}`)),
-        catchError(this.handleError<Task>('createTask')),
+        catchError(this.handleError<Task>('createTask'))
       );
   }
 
@@ -79,7 +79,7 @@ export class TaskService {
       .put<Task>(`${this.apiUrl}tasks/${taskId}`, task, this.httpOptions)
       .pipe(
         tap((updatedTask) => this.log(`Updated task: ${updatedTask.id}`)),
-        catchError(this.handleError<Task>(`updateTask id=${taskId}`)),
+        catchError(this.handleError<Task>(`updateTask id=${taskId}`))
       );
   }
 
@@ -95,25 +95,16 @@ export class TaskService {
       .delete<void>(`${this.apiUrl}tasks/${taskId}`, this.httpOptions)
       .pipe(
         tap(() => this.log(`Deleted task with ID: ${taskId}`)),
-        catchError(this.handleError<void>(`deleteTask id=${taskId}`)),
+        catchError(this.handleError<void>(`deleteTask id=${taskId}`))
       );
   }
 
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: HttpErrorResponse): Observable<T> => {
-      // Log error to console (in production, you might want to send to logging service)
       console.error(`${operation} failed:`, error);
 
-      // Log user-friendly message
       this.log(`${operation} failed: ${this.getErrorMessage(error)}`);
 
-      // Let the app keep running by returning an empty result or throwing error
       if (result !== undefined) {
         return new Observable((observer) => {
           observer.next(result as T);
